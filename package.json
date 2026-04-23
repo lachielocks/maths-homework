@@ -1,0 +1,13 @@
+{
+  "name": "maths-homework-hub",
+  "version": "1.0.0",
+  "description": "A minimalistic hub for maths homework images",
+  "main": "index.html",
+  "scripts": {
+    "build": "node build.js",
+    "start": "npm run build && npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

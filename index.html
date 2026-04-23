@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Homework Hub</title>
+    <meta name="description" content="A minimalistic hub to view and search maths homework.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Maths Homework Hub</h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search homework by name or date..." aria-label="Search homework">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="noResults" class="hidden">
+            <p>No homework found matching your search.</p>
+        </div>
+        <div id="grid" class="homework-grid">
+            <!-- Items injected by JS -->
+        </div>
+
+        <div class="pagination-container" id="pagination">
+            <button id="prevBtn" class="btn" aria-label="Previous Page" disabled>Previous</button>
+            <span id="pageInfo" class="page-info">Page 1</span>
+            <button id="nextBtn" class="btn" aria-label="Next Page" disabled>Next</button>
+        </div>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox hidden" aria-modal="true" role="dialog">
+        <button id="lightboxClose" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="Expanded Homework">
+            <h2 id="lightboxTitle"></h2>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
