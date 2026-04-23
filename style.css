@@ -149,10 +149,6 @@ body {
     color: var(--text-primary);
 }
 
-.card-date {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-}
 
 /* Pagination */
 .pagination-container {

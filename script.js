@@ -35,13 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Format date string from timestamp
-    function formatDate(timestamp) {
-        if (!timestamp) return 'Unknown date';
-        const date = new Date(timestamp);
-        return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-    }
-
     // Render grid
     function render() {
         if (filteredData.length === 0) {
@@ -69,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="card-content">
                     <h3 class="card-title">${item.title}</h3>
-                    <div class="card-date">${formatDate(item.mtime)}</div>
                 </div>
             </div>
         `).join('');
@@ -98,8 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
         filteredData = allData.filter(item => 
-            item.title.toLowerCase().includes(query) || 
-            formatDate(item.mtime).toLowerCase().includes(query)
+            item.title.toLowerCase().includes(query)
         );
         currentPage = 1; // Reset to first page on search
         render();

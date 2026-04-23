@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Top Left: Plus (+) -->
+  <path d="M25,10 L25,40 M10,25 L40,25" stroke="#2563EB" stroke-width="8" stroke-linecap="round"/>
+  <!-- Top Right: Minus (-) -->
+  <path d="M60,25 L90,25" stroke="#2563EB" stroke-width="8" stroke-linecap="round"/>
+  <!-- Bottom Left: Times (×) -->
+  <path d="M12,62 L38,88 M12,88 L38,62" stroke="#2563EB" stroke-width="8" stroke-linecap="round"/>
+  <!-- Bottom Right: Divide (÷) -->
+  <path d="M60,75 L90,75" stroke="#2563EB" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="75" cy="62" r="4" fill="#2563EB"/>
+  <circle cx="75" cy="88" r="4" fill="#2563EB"/>
+</svg>
