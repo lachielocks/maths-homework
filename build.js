@@ -27,10 +27,16 @@ function buildData() {
       const stats = fs.statSync(path.join(HOMEWORK_DIR, file));
       const ext = path.extname(file);
       const basename = path.basename(file, ext);
-      
-      // Convert "Algebra_Week_1" to "Algebra Week 1"
-      const title = basename.replace(/[_-]/g, ' ');
-      
+      // Format the title to be nicely capitalized, e.g., "exercise_5a" -> "Exercise 5A"
+      const title = basename
+        .replace(/[_-]/g, ' ')
+        .split(/\s+/)
+        .map(word => {
+          if (!word) return word;
+          let cap = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          return cap.replace(/(\d)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+        })
+        .join(' ');
       return {
         filename: file,
         path: `homework/${file}`,
