@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pageData = filteredData.slice(startIndex, endIndex);
 
         grid.innerHTML = pageData.map((item, index) => `
-            <div class="card" tabindex="0" data-index="${startIndex + index}">
+            <div class="card" tabindex="0" data-index="${startIndex + index}" style="animation-delay: ${index * 0.05}s">
                 <div class="card-image-wrapper">
                     <img src="${item.path}" alt="${item.title}" class="card-image" loading="lazy">
                 </div>
@@ -81,7 +81,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePagination(totalPages) {
-        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        const newText = `Page ${currentPage} of ${totalPages}`;
+        if (pageInfo.textContent === newText) {
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            return;
+        }
+        
+        pageInfo.classList.add('flip-out');
+        setTimeout(() => {
+            pageInfo.textContent = newText;
+            pageInfo.style.transition = 'none';
+            pageInfo.style.transform = 'rotateX(-90deg)';
+            
+            // force reflow
+            void pageInfo.offsetWidth;
+            
+            pageInfo.style.transition = '';
+            pageInfo.classList.remove('flip-out');
+            pageInfo.style.transform = '';
+        }, 150);
+
         prevBtn.disabled = currentPage === 1;
         nextBtn.disabled = currentPage === totalPages;
     }

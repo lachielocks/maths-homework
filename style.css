@@ -58,6 +58,11 @@ body {
     position: relative;
     max-width: 600px;
     margin: 0 auto;
+    transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search-container:focus-within {
+    max-width: 640px;
 }
 
 .search-container input {
@@ -84,6 +89,12 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-secondary);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.3s;
+}
+
+.search-container:focus-within .search-icon {
+    transform: translateY(-50%) scale(1.1) rotate(5deg);
+    color: var(--accent-color);
 }
 
 /* Grid Layout */
@@ -92,6 +103,11 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
+}
+
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .card {
@@ -104,6 +120,8 @@ body {
     transition: var(--transition);
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .card:hover, .card:focus-within {
@@ -115,6 +133,11 @@ body {
 .card:focus-within {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
+}
+
+.card:active {
+    transform: translateY(0) scale(0.98) !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 
 .card-image-wrapper {
@@ -176,6 +199,10 @@ body {
     border-color: var(--text-primary);
 }
 
+.btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -185,6 +212,15 @@ body {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-secondary);
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+    transition: transform 0.15s ease-in, opacity 0.15s ease-in;
+}
+
+.page-info.flip-out {
+    transform: rotateX(90deg);
+    opacity: 0;
 }
 
 /* Utils */
