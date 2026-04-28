@@ -81,9 +81,6 @@ body {
 
 .relative-header {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .header h1 {
@@ -139,6 +136,7 @@ body {
 
 .search-container {
     position: relative;
+    width: 100%;
     max-width: 600px;
     margin: 0 auto;
     transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
