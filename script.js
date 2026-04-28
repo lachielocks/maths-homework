@@ -12,11 +12,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxImg = document.getElementById('lightboxImg');
     const lightboxTitle = document.getElementById('lightboxTitle');
     const lightboxClose = document.getElementById('lightboxClose');
+    
+    // Lightbox pagination
+    const lbPagination = document.getElementById('lightboxPagination');
+    const lbPrevBtn = document.getElementById('lbPrevBtn');
+    const lbNextBtn = document.getElementById('lbNextBtn');
+    const lbPageInfo = document.getElementById('lbPageInfo');
 
     let allData = [];
     let filteredData = [];
     let currentPage = 1;
     const itemsPerPage = 12;
+    
+    let currentLightboxItem = null;
+    let currentPartIndex = 0;
+
+    function groupData(data) {
+        const groups = new Map();
+        
+        data.forEach(item => {
+            const match = item.title.match(/^(.*?)(?:\s*-?\s*(?:Part|Pt)\s*(\d+))?$/i);
+            const baseTitle = match[1].trim() || item.title;
+            const partNum = match[2] ? parseInt(match[2], 10) : 1;
+            
+            if (!groups.has(baseTitle)) {
+                groups.set(baseTitle, {
+                    title: baseTitle,
+                    mtime: item.mtime,
+                    parts: []
+                });
+            }
+            
+            const group = groups.get(baseTitle);
+            group.parts.push({
+                ...item,
+                partNum
+            });
+            
+            if (item.mtime > group.mtime) {
+                group.mtime = item.mtime;
+            }
+        });
+        
+        const result = Array.from(groups.values()).map(group => {
+            group.parts.sort((a, b) => a.partNum - b.partNum);
+            return group;
+        });
+        
+        result.sort((a, b) => b.mtime - a.mtime);
+        return result;
+    }
 
     // Fetch data
     async function loadData() {
@@ -25,7 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            allData = await response.json();
+            const rawData = await response.json();
+            allData = groupData(rawData);
             filteredData = [...allData];
             render();
         } catch (error) {
@@ -58,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.innerHTML = pageData.map((item, index) => `
             <div class="card" tabindex="0" data-index="${startIndex + index}" style="animation-delay: ${index * 0.05}s">
                 <div class="card-image-wrapper">
-                    <img src="${item.path}" alt="${item.title}" class="card-image" loading="lazy">
+                    <img src="${item.parts[0].path}" alt="${item.title}" class="card-image" loading="lazy">
+                    ${item.parts.length > 1 ? `<div class="parts-badge">${item.parts.length} Parts</div>` : ''}
                 </div>
                 <div class="card-content">
                     <h3 class="card-title">${item.title}</h3>
@@ -134,18 +181,71 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Lightbox Logic
+    function renderLightboxPart() {
+        const part = currentLightboxItem.parts[currentPartIndex];
+        lightboxImg.src = part.path;
+        lightboxImg.alt = currentLightboxItem.title;
+        
+        const titleText = currentLightboxItem.parts.length > 1 
+            ? `${currentLightboxItem.title} (Part ${currentPartIndex + 1} of ${currentLightboxItem.parts.length})`
+            : currentLightboxItem.title;
+            
+        lightboxTitle.textContent = titleText;
+        
+        if (currentLightboxItem.parts.length > 1) {
+            lbPagination.classList.remove('hidden');
+            lbPrevBtn.disabled = currentPartIndex === 0;
+            lbNextBtn.disabled = currentPartIndex === currentLightboxItem.parts.length - 1;
+            
+            const newText = `Part ${currentPartIndex + 1} of ${currentLightboxItem.parts.length}`;
+            if (lbPageInfo.textContent !== newText) {
+                lbPageInfo.classList.add('flip-out');
+                setTimeout(() => {
+                    lbPageInfo.textContent = newText;
+                    lbPageInfo.style.transition = 'none';
+                    lbPageInfo.style.transform = 'rotateX(-90deg)';
+                    void lbPageInfo.offsetWidth;
+                    lbPageInfo.style.transition = '';
+                    lbPageInfo.classList.remove('flip-out');
+                    lbPageInfo.style.transform = '';
+                }, 150);
+            } else {
+                lbPageInfo.textContent = newText;
+            }
+        } else {
+            lbPagination.classList.add('hidden');
+        }
+    }
+
     function openLightbox(index) {
         const item = filteredData[index];
         if (!item) return;
         
-        lightboxImg.src = item.path;
-        lightboxImg.alt = item.title;
-        lightboxTitle.textContent = item.title;
+        currentLightboxItem = item;
+        currentPartIndex = 0;
+        
+        lbPageInfo.textContent = currentLightboxItem.parts.length > 1 ? `Part 1 of ${currentLightboxItem.parts.length}` : 'Part 1';
+        
+        renderLightboxPart();
         
         lightbox.classList.remove('hidden');
         document.body.style.overflow = 'hidden'; // Prevent scrolling behind lightbox
         lightboxClose.focus();
     }
+
+    lbPrevBtn.addEventListener('click', () => {
+        if (currentPartIndex > 0) {
+            currentPartIndex--;
+            renderLightboxPart();
+        }
+    });
+
+    lbNextBtn.addEventListener('click', () => {
+        if (currentLightboxItem && currentPartIndex < currentLightboxItem.parts.length - 1) {
+            currentPartIndex++;
+            renderLightboxPart();
+        }
+    });
 
     function closeLightbox() {
         lightbox.classList.add('hidden');

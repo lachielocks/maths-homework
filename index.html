@@ -48,8 +48,16 @@
             </div>
         </button>
         <div class="lightbox-content">
-            <img id="lightboxImg" src="" alt="Expanded Homework">
+            <div class="lightbox-image-wrapper">
+                <img id="lightboxImg" src="" alt="Expanded Homework">
+            </div>
             <h2 id="lightboxTitle"></h2>
+            
+            <div class="pagination-container lightbox-pagination hidden" id="lightboxPagination">
+                <button id="lbPrevBtn" class="btn" aria-label="Previous Part" disabled>Previous</button>
+                <span id="lbPageInfo" class="page-info">Part 1</span>
+                <button id="lbNextBtn" class="btn" aria-label="Next Part" disabled>Next</button>
+            </div>
         </div>
     </div>
 
