@@ -264,12 +264,14 @@ body {
     justify-content: center;
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.lightbox:not(.hidden) {
+.lightbox.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 .lightbox-close {
@@ -365,7 +367,7 @@ body {
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.lightbox:not(.hidden) .lightbox-image-wrapper {
+.lightbox.active .lightbox-image-wrapper {
     transform: scale(1) translateY(0);
     opacity: 1;
     transition-delay: 0.1s;
@@ -389,7 +391,7 @@ body {
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.lightbox:not(.hidden) .lightbox-content h2 {
+.lightbox.active .lightbox-content h2 {
     transform: translateY(0);
     opacity: 1;
     transition-delay: 0.2s;
@@ -403,7 +405,7 @@ body {
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.lightbox:not(.hidden) .lightbox-pagination {
+.lightbox.active .lightbox-pagination {
     transform: translateY(0);
     opacity: 1;
     transition-delay: 0.25s;

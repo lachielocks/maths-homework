@@ -228,7 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         renderLightboxPart();
         
-        lightbox.classList.remove('hidden');
+        void lightbox.offsetWidth; // Force reflow
+        lightbox.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevent scrolling behind lightbox
         lightboxClose.focus();
     }
@@ -248,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function closeLightbox() {
-        lightbox.classList.add('hidden');
+        lightbox.classList.remove('active');
         document.body.style.overflow = '';
         setTimeout(() => {
             lightboxImg.src = '';
@@ -264,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
             closeLightbox();
         }
     });
