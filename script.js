@@ -1,4 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Theme logic
+    const themes = ['auto', 'light', 'dark'];
+    let currentThemeIndex = 0;
+    const themeToggle = document.getElementById('themeToggle');
+    const icons = {
+        'auto': document.getElementById('icon-auto'),
+        'light': document.getElementById('icon-light'),
+        'dark': document.getElementById('icon-dark')
+    };
+
+    function applyTheme() {
+        const theme = themes[currentThemeIndex];
+        if (theme === 'auto') {
+            document.documentElement.removeAttribute('data-theme');
+        } else {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+        localStorage.setItem('theme', theme);
+        
+        // Update icons
+        Object.keys(icons).forEach(k => {
+            if (k === theme) {
+                icons[k].classList.remove('hidden');
+            } else {
+                icons[k].classList.add('hidden');
+            }
+        });
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && themes.includes(savedTheme)) {
+        currentThemeIndex = themes.indexOf(savedTheme);
+    }
+    applyTheme();
+
+    themeToggle.addEventListener('click', () => {
+        currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+        applyTheme();
+    });
+
     const grid = document.getElementById('grid');
     const searchInput = document.getElementById('searchInput');
     const prevBtn = document.getElementById('prevBtn');

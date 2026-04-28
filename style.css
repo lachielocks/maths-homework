@@ -12,6 +12,39 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --radius: 12px;
     --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --image-bg: #f3f4f6;
+}
+
+[data-theme="dark"] {
+    --bg-color: #111827;
+    --card-bg: #1f2937;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --border-color: #374151;
+    --accent-color: #60a5fa;
+    --accent-hover: #93c5fd;
+    --focus-ring: rgba(96, 165, 250, 0.5);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+    --image-bg: #374151;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg-color: #111827;
+        --card-bg: #1f2937;
+        --text-primary: #f9fafb;
+        --text-secondary: #9ca3af;
+        --border-color: #374151;
+        --accent-color: #60a5fa;
+        --accent-hover: #93c5fd;
+        --focus-ring: rgba(96, 165, 250, 0.5);
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+        --image-bg: #374151;
+    }
 }
 
 * {
@@ -46,12 +79,62 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
+.relative-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .header h1 {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
     color: var(--text-primary);
     text-align: center;
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.theme-icon-container {
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+
+.theme-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+}
+
+.theme-icon.hidden {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+    pointer-events: none;
 }
 
 .search-container {
@@ -145,7 +228,7 @@ body {
     width: 100%;
     aspect-ratio: 4/3;
     overflow: hidden;
-    background-color: #f3f4f6;
+    background-color: var(--image-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -412,38 +495,11 @@ body {
 }
 
 /* Konami Code Easter Egg */
-@keyframes rainbowFilter {
-    0% { filter: hue-rotate(0deg) saturate(1.5); }
-    100% { filter: hue-rotate(360deg) saturate(1.5); }
-}
-
-@keyframes barrelRoll {
-    0% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.2); }
-    100% { transform: rotate(360deg) scale(1); }
+@keyframes rainbowParty {
+    0% { filter: hue-rotate(0deg) saturate(200%); }
+    100% { filter: hue-rotate(360deg) saturate(200%); }
 }
 
 body.konami {
-    animation: rainbowFilter 2s linear infinite;
-    background-color: #111;
-    color: #fff;
-}
-
-body.konami .header {
-    background-color: #222;
-    border-color: #444;
-}
-
-body.konami .header h1 {
-    display: inline-block;
-    animation: barrelRoll 1s ease-in-out;
-}
-
-body.konami .card {
-    background-color: #222;
-    border-color: #444;
-}
-
-body.konami .card-image-wrapper {
-    background-color: #333;
+    animation: rainbowParty 2s linear infinite;
 }
