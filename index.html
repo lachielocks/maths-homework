@@ -39,7 +39,14 @@
 
     <!-- Lightbox Modal -->
     <div id="lightbox" class="lightbox hidden" aria-modal="true" role="dialog">
-        <button id="lightboxClose" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+        <button id="lightboxClose" class="lightbox-close" aria-label="Close Lightbox">
+            <div class="math-grid">
+                <span class="sym-plus">+</span>
+                <span class="sym-minus">-</span>
+                <span class="sym-times">&times;</span>
+                <span class="sym-div">&divide;</span>
+            </div>
+        </button>
         <div class="lightbox-content">
             <img id="lightboxImg" src="" alt="Expanded Homework">
             <h2 id="lightboxTitle"></h2>
