@@ -264,9 +264,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiIndex = 0;
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && lightbox.classList.contains('active')) {
             closeLightbox();
+        }
+        
+        const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+        if (key === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                document.body.classList.toggle('konami');
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+            if (key === 'ArrowUp') konamiIndex = 1;
         }
     });
 
