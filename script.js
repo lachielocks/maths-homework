@@ -67,6 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLightboxItem = null;
     let currentPartIndex = 0;
 
+    function hasHalfLessonPrefix(title) {
+        return /^\s*1\/2\b/.test(title);
+    }
+
     function groupData(data) {
         const groups = new Map();
         
@@ -145,7 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="card" tabindex="0" data-index="${startIndex + index}" style="animation-delay: ${index * 0.05}s">
                 <div class="card-image-wrapper">
                     <img src="${item.parts[0].path}" alt="${item.title}" class="card-image" loading="lazy">
-                    ${item.parts.length > 1 ? `<div class="parts-badge">${item.parts.length} Parts</div>` : ''}
+                    ${(item.parts.length > 1 || hasHalfLessonPrefix(item.title)) ? `
+                        <div class="card-badges">
+                            ${item.parts.length > 1 ? `<div class="parts-badge">${item.parts.length} Parts</div>` : ''}
+                            ${hasHalfLessonPrefix(item.title) ? `<div class="parts-badge">Only Half Because of Missed Lesson</div>` : ''}
+                        </div>
+                    ` : ''}
                 </div>
                 <div class="card-content">
                     <h3 class="card-title">${item.title}</h3>
