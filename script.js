@@ -67,23 +67,30 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLightboxItem = null;
     let currentPartIndex = 0;
 
-    function hasHalfLessonPrefix(title) {
-        // 1/2 in filenames is invalid on many systems; 1:2 is a common substitute
-        return /^\s*1(?:\/|:)2\b/.test(title);
+    /** Strip leading 1/2 or 1:2 from title for display; filenames often use 1:2 instead of 1/2. */
+    function stripHalfLessonPrefix(title) {
+        const m = title.match(/^\s*1(?:\/|:)2\b/);
+        if (!m) {
+            return { rest: title.trim(), halfLesson: false };
+        }
+        const rest = title.slice(m[0].length).replace(/^[\s._-]+/, '').trim();
+        return { rest: rest || title.trim(), halfLesson: true };
     }
 
     function groupData(data) {
         const groups = new Map();
         
         data.forEach(item => {
-            const match = item.title.match(/^(.*?)(?:\s*-?\s*(?:Part|Pt)\s*(\d+))?$/i);
-            const baseTitle = match[1].trim() || item.title;
+            const { rest: titleForParts, halfLesson } = stripHalfLessonPrefix(item.title);
+            const match = titleForParts.match(/^(.*?)(?:\s*-?\s*(?:Part|Pt)\s*(\d+))?$/i);
+            const baseTitle = match[1].trim() || titleForParts;
             const partNum = match[2] ? parseInt(match[2], 10) : 1;
             
             if (!groups.has(baseTitle)) {
                 groups.set(baseTitle, {
                     title: baseTitle,
                     mtime: item.mtime,
+                    halfLesson: false,
                     parts: []
                 });
             }
@@ -93,6 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ...item,
                 partNum
             });
+            
+            if (halfLesson) {
+                group.halfLesson = true;
+            }
             
             if (item.mtime > group.mtime) {
                 group.mtime = item.mtime;
@@ -150,10 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="card" tabindex="0" data-index="${startIndex + index}" style="animation-delay: ${index * 0.05}s">
                 <div class="card-image-wrapper">
                     <img src="${item.parts[0].path}" alt="${item.title}" class="card-image" loading="lazy">
-                    ${(item.parts.length > 1 || hasHalfLessonPrefix(item.title)) ? `
+                    ${(item.parts.length > 1 || item.halfLesson) ? `
                         <div class="card-badges">
                             ${item.parts.length > 1 ? `<div class="parts-badge">${item.parts.length} Parts</div>` : ''}
-                            ${hasHalfLessonPrefix(item.title) ? `<div class="parts-badge">Only Half Because of Missed Lesson</div>` : ''}
+                            ${item.halfLesson ? `<div class="parts-badge">Only Half Because of Missed Lesson</div>` : ''}
                         </div>
                     ` : ''}
                 </div>
