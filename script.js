@@ -68,7 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPartIndex = 0;
 
     function hasHalfLessonPrefix(title) {
-        return /^\s*1\/2\b/.test(title);
+        // 1/2 in filenames is invalid on many systems; 1:2 is a common substitute
+        return /^\s*1(?:\/|:)2\b/.test(title);
     }
 
     function groupData(data) {
