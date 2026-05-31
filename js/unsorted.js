@@ -1,36 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const {
-        belongsToChapter,
-        groupData,
-        sortChapterHomework
-    } = HomeworkUtils;
-
-    const params = new URLSearchParams(window.location.search);
-    const chapterNum = parseInt(params.get('chapter'), 10);
+    const { getAllUnsorted } = HomeworkUtils;
 
     const grid = document.getElementById('grid');
     const searchInput = document.getElementById('searchInput');
-    const searchScopeBtn = document.getElementById('searchScopeBtn');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const pageInfo = document.getElementById('pageInfo');
     const noResults = document.getElementById('noResults');
     const pagination = document.getElementById('pagination');
-    const pageTitle = document.getElementById('pageTitle');
-    const breadcrumbChapter = document.getElementById('breadcrumbChapter');
 
-    if (!chapterNum || Number.isNaN(chapterNum)) {
-        window.location.href = 'index.html';
-        return;
-    }
-
-    pageTitle.textContent = `Chapter ${chapterNum}`;
-    breadcrumbChapter.textContent = `Chapter ${chapterNum}`;
-    document.title = `Chapter ${chapterNum} — Lachie's Maths Homework`;
-
-    let allData = [];
-    let chapterItems = [];
-    let searchAllWork = false;
+    let allUnsorted = [];
     let filteredData = [];
     let currentPage = 1;
     const itemsPerPage = 12;
@@ -52,17 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-    }
-
-    function applySearch(query) {
-        const q = query.toLowerCase().trim();
-        const pool = searchAllWork ? allData : chapterItems;
-
-        filteredData = q
-            ? pool.filter(item => item.title.toLowerCase().includes(q))
-            : [...pool];
-        currentPage = 1;
-        render();
     }
 
     function render() {
@@ -94,19 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.disabled = currentPage === totalPages;
     }
 
-    searchInput.addEventListener('input', (e) => applySearch(e.target.value));
-
-    searchScopeBtn.addEventListener('click', () => {
-        searchAllWork = !searchAllWork;
-        searchScopeBtn.classList.toggle('active', searchAllWork);
-        searchScopeBtn.setAttribute('aria-pressed', String(searchAllWork));
-        searchScopeBtn.title = searchAllWork
-            ? 'Searching all homework — click to search this chapter only'
-            : 'Searching this chapter only — click to search all homework';
-        searchInput.placeholder = searchAllWork
-            ? 'Search all homework...'
-            : `Search Chapter ${chapterNum}...`;
-        applySearch(searchInput.value);
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        filteredData = query
+            ? allUnsorted.filter(item => item.title.toLowerCase().includes(query))
+            : [...allUnsorted];
+        currentPage = 1;
+        render();
     });
 
     prevBtn.addEventListener('click', () => {
@@ -131,18 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('data.json');
             if (!response.ok) throw new Error('Network response was not ok');
             const rawData = await response.json();
-            const chapterRaw = rawData.filter(item => belongsToChapter(item, chapterNum));
-            if (chapterRaw.length === 0) {
-                grid.innerHTML = '<p class="load-error">No homework for this chapter yet.</p>';
-                pagination.classList.add('hidden');
-                return;
-            }
-            const grouped = groupData(chapterRaw);
-            const { main } = sortChapterHomework(grouped, chapterNum);
-
-            allData = groupData(rawData);
-            chapterItems = main;
-            filteredData = [...main];
+            allUnsorted = getAllUnsorted(rawData);
+            filteredData = [...allUnsorted];
             render();
         } catch (error) {
             console.error('Error loading data:', error);

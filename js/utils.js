@@ -126,6 +126,22 @@
         return [...set].sort((a, b) => a - b);
     }
 
+    /** Whether a grouped item counts as unsorted (global, not per-chapter). */
+    function isUnsortedGroup(group) {
+        const title = group.title;
+        if (hasYear10(title)) {
+            return getChapterNumbers(group).length > 0;
+        }
+        if (isProgressQuiz(title) || isChapterReview(title) || isStandardExercise(title)) {
+            return false;
+        }
+        return getChapterNumbers(group).length > 0;
+    }
+
+    function getAllUnsorted(rawData) {
+        return groupData(rawData).filter(isUnsortedGroup).sort(sortTitleZA);
+    }
+
     global.HomeworkUtils = {
         stripHalfLessonPrefix,
         getChapterNumbers,
@@ -133,8 +149,11 @@
         groupData,
         sortChapterHomework,
         discoverChapters,
+        getAllUnsorted,
+        isUnsortedGroup,
         isProgressQuiz,
         isChapterReview,
-        isStandardExercise
+        isStandardExercise,
+        hasYear10
     };
 })(typeof window !== 'undefined' ? window : global);

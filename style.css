@@ -279,12 +279,21 @@ h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
     outline: none;
 }
 
-.chapter-card-number {
+.chapter-card-number,
+.chapter-card-label {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--accent-color);
     line-height: 1;
+}
+
+.chapter-card--unsorted {
+    border-style: dashed;
+}
+
+.chapter-card--unsorted .chapter-card-label {
+    color: var(--text-secondary);
 }
 
 .chapter-card-title {
