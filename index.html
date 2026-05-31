@@ -31,7 +31,15 @@
     </header>
 
     <main class="container">
-        <p class="home-intro">Choose a chapter to browse homework, or open Unsorted Work for exercises that sit outside the usual layout.</p>
+        <div id="statsBar" class="stats-bar" aria-label="Collection statistics"></div>
+        <p class="home-intro">Choose a chapter to browse homework, or open Unsorted Work for exercises that sit outside the usual layout. Press <kbd>/</kbd> to search.</p>
+
+        <section id="recentSection" class="recent-section">
+            <h2 class="section-heading">Recently added</h2>
+            <div id="recentGrid" class="homework-grid homework-grid--recent"></div>
+        </section>
+
+        <h2 class="section-heading section-heading--chapters">Chapters</h2>
         <div id="noResults" class="hidden">
             <p>No chapters found matching your search.</p>
         </div>
@@ -40,6 +48,7 @@
 
     <script src="js/utils.js"></script>
     <script src="js/common.js"></script>
+    <script src="js/lightbox.js"></script>
     <script src="js/home.js"></script>
 </body>
 </html>

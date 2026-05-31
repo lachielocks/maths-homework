@@ -24,9 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    const { getChapterAccent } = HomeworkUtils;
+    const accent = getChapterAccent(chapterNum);
+
     pageTitle.textContent = `Chapter ${chapterNum}`;
     breadcrumbChapter.textContent = `Chapter ${chapterNum}`;
     document.title = `Chapter ${chapterNum} — Lachie's Maths Homework`;
+    document.documentElement.style.setProperty('--accent-color', accent.css);
+    document.documentElement.style.setProperty('--accent-hover', accent.cssHover);
+    document.documentElement.style.setProperty('--focus-ring', accent.ring);
+    document.documentElement.dataset.chapter = String(chapterNum);
 
     let allData = [];
     let chapterItems = [];

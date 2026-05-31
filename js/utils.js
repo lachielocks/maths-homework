@@ -141,6 +141,37 @@
         return groupData(rawData).filter(isUnsortedGroup).sort(sortTitleZA);
     }
 
+    const CHAPTER_HUES = [220, 168, 280, 32, 340, 192, 48, 305, 130, 15];
+
+    function getChapterAccent(chapterNum) {
+        const h = CHAPTER_HUES[(Math.max(1, chapterNum) - 1) % CHAPTER_HUES.length];
+        return {
+            css: `hsl(${h} 62% 46%)`,
+            cssHover: `hsl(${h} 62% 38%)`,
+            ring: `hsla(${h}, 62%, 46%, 0.45)`
+        };
+    }
+
+    function getSiteStats(rawData) {
+        const grouped = groupData(rawData);
+        const chapters = discoverChapters(rawData);
+        const unsorted = getAllUnsorted(rawData);
+        const sheetCount = rawData.length;
+        return {
+            sheets: sheetCount,
+            exercises: grouped.length,
+            chapters: chapters.length,
+            unsorted: unsorted.length
+        };
+    }
+
+    function getRecentlyAdded(rawData, limit = 6) {
+        const grouped = groupData(rawData);
+        return grouped
+            .sort((a, b) => b.mtime - a.mtime)
+            .slice(0, limit);
+    }
+
     global.HomeworkUtils = {
         stripHalfLessonPrefix,
         getChapterNumbers,
@@ -149,6 +180,9 @@
         sortChapterHomework,
         discoverChapters,
         getAllUnsorted,
+        getChapterAccent,
+        getSiteStats,
+        getRecentlyAdded,
         isUnsortedGroup,
         isProgressQuiz,
         isChapterReview,
