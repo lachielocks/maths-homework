@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lachie's Maths Homework</title>
-    <meta name="description" content="A minimalistic hub to view and search maths homework by chapter.">
+    <title>Chapter — Lachie's Maths Homework</title>
+    <meta name="description" content="View maths homework for a specific chapter.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&display=swap" rel="stylesheet">
@@ -15,7 +15,12 @@
 <body>
     <header class="header">
         <div class="container relative-header">
-            <h1>Lachie's Maths Homework</h1>
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Home</a>
+                <span aria-hidden="true">/</span>
+                <span id="breadcrumbChapter">Chapter</span>
+            </nav>
+            <h1 id="pageTitle">Chapter</h1>
             <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme">
                 <div class="theme-icon-container">
                     <svg id="icon-auto" class="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
@@ -23,23 +28,58 @@
                     <svg id="icon-dark" class="theme-icon hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </div>
             </button>
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Search chapters..." aria-label="Search chapters">
+            <div class="search-container search-container--scoped">
+                <input type="text" id="searchInput" placeholder="Search this chapter..." aria-label="Search homework">
                 <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <button type="button" id="searchScopeBtn" class="search-scope-btn" aria-pressed="false" title="Searching this chapter only — click to search all homework">
+                    All work
+                </button>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <p class="home-intro">Choose a chapter to browse homework.</p>
         <div id="noResults" class="hidden">
-            <p>No chapters found matching your search.</p>
+            <p>No homework found matching your search.</p>
         </div>
-        <div id="grid" class="chapter-grid"></div>
+        <div id="grid" class="homework-grid"></div>
+
+        <section id="unsortedSection" class="unsorted-section hidden">
+            <h2 class="section-heading">Unsorted Work</h2>
+            <div id="unsortedGrid" class="homework-grid"></div>
+        </section>
+
+        <div class="pagination-container" id="pagination">
+            <button id="prevBtn" class="btn" aria-label="Previous Page" disabled>Previous</button>
+            <span id="pageInfo" class="page-info">Page 1</span>
+            <button id="nextBtn" class="btn" aria-label="Next Page" disabled>Next</button>
+        </div>
     </main>
+
+    <div id="lightbox" class="lightbox" aria-modal="true" role="dialog">
+        <button id="lightboxClose" class="lightbox-close" aria-label="Close Lightbox">
+            <div class="math-grid">
+                <span class="sym-plus">+</span>
+                <span class="sym-minus">-</span>
+                <span class="sym-times">&times;</span>
+                <span class="sym-div">&divide;</span>
+            </div>
+        </button>
+        <div class="lightbox-content">
+            <div class="lightbox-image-wrapper">
+                <img id="lightboxImg" src="" alt="Expanded Homework">
+            </div>
+            <h2 id="lightboxTitle"></h2>
+            <div class="pagination-container lightbox-pagination hidden" id="lightboxPagination">
+                <button id="lbPrevBtn" class="btn" aria-label="Previous Part" disabled>Previous</button>
+                <span id="lbPageInfo" class="page-info">Part 1</span>
+                <button id="lbNextBtn" class="btn" aria-label="Next Part" disabled>Next</button>
+            </div>
+        </div>
+    </div>
 
     <script src="js/utils.js"></script>
     <script src="js/common.js"></script>
-    <script src="js/home.js"></script>
+    <script src="js/chapter.js"></script>
 </body>
 </html>

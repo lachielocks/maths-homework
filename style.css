@@ -54,11 +54,15 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Geist Sans', 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
+    font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .container {
@@ -89,6 +93,35 @@ body {
     margin-bottom: 1.5rem;
     color: var(--text-primary);
     text-align: center;
+}
+
+.breadcrumb {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.breadcrumb a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.home-intro {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.0625rem;
+}
+
+.load-error {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-secondary);
 }
 
 .theme-toggle {
@@ -155,6 +188,40 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     transition: var(--transition);
+    font-family: inherit;
+}
+
+.search-container--scoped input {
+    padding-right: 6.5rem;
+}
+
+.search-scope-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--text-secondary);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--radius) - 4px);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.search-scope-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+}
+
+.search-scope-btn.active {
+    color: white;
+    background: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 .search-container input:focus {
@@ -178,12 +245,84 @@ body {
     color: var(--accent-color);
 }
 
+/* Chapter picker (home) */
+.chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.chapter-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+    opacity: 0;
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.chapter-card:hover,
+.chapter-card:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.chapter-card-number {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    line-height: 1;
+}
+
+.chapter-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.chapter-card-cta {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.chapter-card:hover .chapter-card-cta {
+    color: var(--accent-color);
+}
+
 /* Grid Layout */
 .homework-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
+}
+
+.unsorted-section {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--border-color);
+}
+
+.section-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
 }
 
 @keyframes slideUpFade {

@@ -41,7 +41,7 @@ function buildData() {
         filename: file,
         path: `homework/${file}`,
         title: title,
-        mtime: stats.mtime.getTime() // used for sorting (newest first)
+        mtime: stats.mtime.getTime()
       };
     })
     .sort((a, b) => b.mtime - a.mtime); // Sort newest to oldest
