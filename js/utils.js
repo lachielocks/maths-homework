@@ -165,13 +165,6 @@
         };
     }
 
-    function getRecentlyAdded(rawData, limit = 6) {
-        const grouped = groupData(rawData);
-        return grouped
-            .sort((a, b) => b.mtime - a.mtime)
-            .slice(0, limit);
-    }
-
     global.HomeworkUtils = {
         stripHalfLessonPrefix,
         getChapterNumbers,
@@ -182,7 +175,6 @@
         getAllUnsorted,
         getChapterAccent,
         getSiteStats,
-        getRecentlyAdded,
         isUnsortedGroup,
         isProgressQuiz,
         isChapterReview,

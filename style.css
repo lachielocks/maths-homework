@@ -190,10 +190,6 @@ h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
     letter-spacing: 0.04em;
 }
 
-.recent-section {
-    margin-bottom: 3rem;
-}
-
 .section-heading {
     font-size: 1.5rem;
     font-weight: 600;
@@ -203,26 +199,6 @@ h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
 
 .section-heading--chapters {
     margin-top: 0.5rem;
-}
-
-.homework-grid--recent {
-    margin-bottom: 0;
-}
-
-.recent-badge {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    background: rgba(17, 24, 39, 0.85);
-    color: white;
-    padding: 0.2rem 0.6rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
-.card--recent:hover {
-    border-color: var(--accent-color);
 }
 
 .load-error {
