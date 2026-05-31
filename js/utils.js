@@ -21,6 +21,9 @@
 
         for (const raw of texts) {
             const text = normalizeForChapter(raw);
+            // Year 10 exercises live only under Unsorted Work, not in any chapter
+            if (hasYear10(text)) continue;
+
             const chapterRe = /Chapter\s+(\d+)/gi;
             let m;
             while ((m = chapterRe.exec(text)) !== null) {
@@ -57,9 +60,7 @@
     /** Homework in a chapter that does not fit quiz / review / standard exercise. */
     function isUnsortedWork(item) {
         const title = item.title;
-        if (hasYear10(title)) {
-            return belongsToChapter(item, item._chapterFilter);
-        }
+        if (hasYear10(title)) return false;
         if (isProgressQuiz(title) || isChapterReview(title) || isStandardExercise(title)) {
             return false;
         }
@@ -129,9 +130,7 @@
     /** Whether a grouped item counts as unsorted (global, not per-chapter). */
     function isUnsortedGroup(group) {
         const title = group.title;
-        if (hasYear10(title)) {
-            return getChapterNumbers(group).length > 0;
-        }
+        if (hasYear10(title)) return true;
         if (isProgressQuiz(title) || isChapterReview(title) || isStandardExercise(title)) {
             return false;
         }
