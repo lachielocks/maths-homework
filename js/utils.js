@@ -155,13 +155,9 @@
     function getSiteStats(rawData) {
         const grouped = groupData(rawData);
         const chapters = discoverChapters(rawData);
-        const unsorted = getAllUnsorted(rawData);
-        const sheetCount = rawData.length;
         return {
-            sheets: sheetCount,
             exercises: grouped.length,
-            chapters: chapters.length,
-            unsorted: unsorted.length
+            chapters: chapters.length
         };
     }
 

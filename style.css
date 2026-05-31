@@ -158,14 +158,34 @@ h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
 .stats-bar {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 1.5rem 2.5rem;
+    gap: 1.25rem 2rem;
     padding: 1.25rem 1.5rem;
     margin-bottom: 2rem;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
+}
+
+.stats-bar__counts {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.stats-note {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.stats-info-icon {
+    flex-shrink: 0;
+    color: var(--accent-color);
 }
 
 .stat {

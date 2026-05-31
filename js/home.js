@@ -41,10 +41,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderStats(stats) {
         statsBar.innerHTML = `
-            <div class="stat"><span class="stat-value">${stats.sheets}</span><span class="stat-label">Sheets</span></div>
-            <div class="stat"><span class="stat-value">${stats.exercises}</span><span class="stat-label">Exercises</span></div>
-            <div class="stat"><span class="stat-value">${stats.chapters}</span><span class="stat-label">Chapters</span></div>
-            <div class="stat"><span class="stat-value">${stats.unsorted}</span><span class="stat-label">Unsorted</span></div>
+            <div class="stats-bar__counts">
+                <div class="stat">
+                    <span class="stat-value">${stats.exercises}</span>
+                    <span class="stat-label">Exercises</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">${stats.chapters}</span>
+                    <span class="stat-label">Chapters</span>
+                </div>
+            </div>
+            <p class="stats-note">
+                <svg class="stats-info-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <span>Since Term 2 Year 9</span>
+            </p>
         `;
     }
 
