@@ -50,9 +50,16 @@
         return /^Exercise\s+\d+[A-Za-z]/i.test(normalizeForChapter(title));
     }
 
+    function hasYear10(title) {
+        return /year\s+10/i.test(normalizeForChapter(title));
+    }
+
     /** Homework in a chapter that does not fit quiz / review / standard exercise. */
     function isUnsortedWork(item) {
         const title = item.title;
+        if (hasYear10(title)) {
+            return belongsToChapter(item, item._chapterFilter);
+        }
         if (isProgressQuiz(title) || isChapterReview(title) || isStandardExercise(title)) {
             return false;
         }
