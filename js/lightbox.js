@@ -1,4 +1,4 @@
-/** Lightbox with zoom, pan, compare, download, and keyboard controls. */
+/** Lightbox with pan, compare, and keyboard controls. */
 (function () {
     const LIGHTBOX_HTML = `
     <div id="lightbox" class="lightbox" aria-modal="true" role="dialog" aria-label="Homework viewer">
@@ -11,13 +11,7 @@
             </div>
         </button>
         <div class="lightbox-toolbar" role="toolbar" aria-label="Image controls">
-            <button type="button" id="lbZoomOut" class="lb-tool-btn" aria-label="Zoom out">−</button>
-            <button type="button" id="lbZoomReset" class="lb-tool-btn lb-zoom-label" aria-label="Reset zoom">100%</button>
-            <button type="button" id="lbZoomIn" class="lb-tool-btn" aria-label="Zoom in">+</button>
-            <span class="lb-toolbar-divider" aria-hidden="true"></span>
             <button type="button" id="lbCompare" class="lb-tool-btn hidden" aria-pressed="false">Compare parts</button>
-            <a id="lbOpen" class="lb-tool-btn lb-tool-link" href="#" target="_blank" rel="noopener">Open</a>
-            <a id="lbDownload" class="lb-tool-btn lb-tool-link" href="#" download>Download</a>
         </div>
         <div class="lightbox-content">
             <div id="lbViewport" class="lightbox-viewport">
@@ -34,7 +28,7 @@
                     <span class="lightbox-pane-label" id="lbLabelB"></span>
                 </div>
             </div>
-            <p class="lightbox-hint" id="lbHint">Scroll or pinch to zoom · Drag to pan · ← → change part</p>
+            <p class="lightbox-hint" id="lbHint">Drag to pan · ← → change part</p>
             <h2 id="lightboxTitle"></h2>
             <div class="lightbox-compare-pick hidden" id="lbComparePick">
                 <label for="lbCompareSelect">Compare with</label>
@@ -74,11 +68,6 @@
     const lbLabelA = document.getElementById('lbLabelA');
     const lbLabelB = document.getElementById('lbLabelB');
     const lbCompare = document.getElementById('lbCompare');
-    const lbZoomIn = document.getElementById('lbZoomIn');
-    const lbZoomOut = document.getElementById('lbZoomOut');
-    const lbZoomReset = document.getElementById('lbZoomReset');
-    const lbOpen = document.getElementById('lbOpen');
-    const lbDownload = document.getElementById('lbDownload');
     const lbHint = document.getElementById('lbHint');
     const lbComparePick = document.getElementById('lbComparePick');
     const lbCompareSelect = document.getElementById('lbCompareSelect');
@@ -107,7 +96,6 @@
     function resetPan(paneKey) {
         panState[paneKey] = { scale: 1, x: 0, y: 0 };
         applyTransform(paneKey);
-        updateZoomLabel();
     }
 
     function resetAllPan() {
@@ -115,25 +103,11 @@
         resetPan('b');
     }
 
-    function updateZoomLabel() {
-        const pct = Math.round(panState.a.scale * 100);
-        lbZoomReset.textContent = `${pct}%`;
-    }
-
     function setZoom(paneKey, delta) {
         const s = panState[paneKey];
         const next = Math.min(5, Math.max(0.5, s.scale + delta));
         s.scale = next;
         applyTransform(paneKey);
-        if (paneKey === 'a') updateZoomLabel();
-    }
-
-    function updateFileActions(part) {
-        if (!part) return;
-        lbOpen.href = part.path;
-        lbDownload.href = part.path;
-        const name = part.filename || part.path.split('/').pop();
-        lbDownload.download = name || 'homework';
     }
 
     function updateCompareUI() {
@@ -157,7 +131,6 @@
             lightboxImg2.alt = `${currentLightboxItem.title} part ${compareRightIndex + 1}`;
             lbLabelA.textContent = `Part ${currentPartIndex + 1}`;
             lbLabelB.textContent = `Part ${compareRightIndex + 1}`;
-            updateFileActions(partA);
         }
     }
 
@@ -178,7 +151,6 @@
         if (!compareMode) {
             lightboxImg.src = part.path;
             lightboxImg.alt = currentLightboxItem.title;
-            updateFileActions(part);
         } else {
             updateCompareUI();
         }
@@ -278,10 +250,6 @@
     setupPan(lbPanA, 'a');
     setupPan(lbPanB, 'b');
 
-    lbZoomIn.addEventListener('click', () => setZoom('a', 0.25));
-    lbZoomOut.addEventListener('click', () => setZoom('a', -0.25));
-    lbZoomReset.addEventListener('click', () => resetPan('a'));
-
     lbCompare.addEventListener('click', () => {
         compareMode = !compareMode;
         resetAllPan();
@@ -318,15 +286,6 @@
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
             goPart(1);
-        } else if (e.key === '+' || e.key === '=') {
-            e.preventDefault();
-            setZoom('a', 0.25);
-        } else if (e.key === '-') {
-            e.preventDefault();
-            setZoom('a', -0.25);
-        } else if (e.key === '0') {
-            e.preventDefault();
-            resetPan('a');
         } else if (e.key === 'c' && currentLightboxItem?.parts.length > 1) {
             e.preventDefault();
             compareMode = true;
