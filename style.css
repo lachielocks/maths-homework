@@ -598,8 +598,7 @@ h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    padding: 0.5rem;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -738,17 +737,20 @@ h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
 }
 
 .lightbox-content {
-    width: min(96vw, 1200px);
-    max-height: calc(100vh - 2rem);
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 3rem;
+    flex: 1;
+    min-height: 0;
 }
 
 .lightbox-viewport {
     width: 100%;
-    height: min(62vh, 520px);
+    flex: 1;
+    min-height: 0;
     display: flex;
     gap: 0.75rem;
     overflow: hidden;
@@ -757,7 +759,8 @@ h1, h2, h3, .card-title, .chapter-card-title, .section-heading {
 }
 
 .lightbox-viewport.compare {
-    height: min(58vh, 480px);
+    flex: 1;
+    min-height: 0;
 }
 
 .lightbox-pane {
